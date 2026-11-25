@@ -15,7 +15,6 @@ export function promptForTags(
 class TagInputModal extends Modal {
   private input: TextComponent | null = null;
   private settled = false;
-  private container: HTMLElement | null = null;
 
   constructor(
     app: App,
@@ -29,7 +28,10 @@ class TagInputModal extends Modal {
 
   onOpen(): void {
     this.modalEl.addClass('tag-search-input-modal');
-    const heading = this.contentEl.createEl('h2', { text: this.title });
+    if (this.isCompactScreen()) {
+      this.modalEl.addClass('tag-search-modal-pinned');
+    }
+    this.contentEl.createEl('h2', { text: this.title });
 
     new Setting(this.contentEl)
       .addText((text) => {
@@ -47,45 +49,12 @@ class TagInputModal extends Modal {
       .addButton((button) =>
         button.setButtonText(this.buttonLabel).setCta().onClick(() => this.submit())
       );
-
-    if (this.isCompactScreen()) {
-      this.pinToTop(heading);
-    }
   }
 
+  /** Mobile viewports (including keyboard-open visual viewport) need the prompt pinned. */
   private isCompactScreen(): boolean {
     const width = Math.min(window.innerWidth, window.visualViewport?.width ?? window.innerWidth);
     return width <= 700;
-  }
-
-  /** Obsidian's mobile sheet sits behind the keyboard; inline styles beat its CSS. */
-  private pinToTop(heading: HTMLElement): void {
-    const set = (name: string, value: string, important = true) =>
-      this.modalEl.style.setProperty(name, value, important ? 'important' : '');
-
-    set('position', 'fixed');
-    set('top', '12px'); // fallback when env() is unsupported
-    set('top', 'calc(env(safe-area-inset-top, 0px) + 12px)');
-    set('left', '12px');
-    set('right', '12px');
-    set('width', 'auto');
-    set('max-width', 'none');
-    set('max-height', 'none');
-    set('margin', '0');
-    set('transform', 'none');
-    set('overflow', 'visible');
-
-    heading.style.fontSize = '1.15em';
-    heading.style.lineHeight = '1.3';
-    heading.style.margin = '0 0 12px';
-
-    // A transformed container would turn `fixed` into viewport-relative-to-container.
-    const container = this.modalEl.closest('.modal-container') as HTMLElement | null;
-    if (container) {
-      this.container = container;
-      container.style.setProperty('align-items', 'flex-start', 'important');
-      container.style.setProperty('transform', 'none', 'important');
-    }
   }
 
   private finish(value: string | null): void {
@@ -100,11 +69,6 @@ class TagInputModal extends Modal {
   }
 
   onClose(): void {
-    if (this.container) {
-      this.container.style.removeProperty('align-items');
-      this.container.style.removeProperty('transform');
-      this.container = null;
-    }
     this.finish(null);
     this.contentEl.empty();
   }
