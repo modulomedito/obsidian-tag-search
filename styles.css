@@ -1,0 +1,115 @@
+.tag-search-view {
+  padding: 0 8px;
+}
+
+.tag-search-view-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.tag-search-view-title {
+  flex: 1;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tag-search-view-count {
+  color: var(--text-muted);
+  font-size: var(--font-ui-smaller);
+}
+
+.tag-search-clear {
+  padding: 2px 8px;
+}
+
+.tag-search-view-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.tag-search-result {
+  padding: 6px 4px;
+  border-bottom: 1px solid var(--background-modifier-border-hover);
+  cursor: pointer;
+}
+
+.tag-search-result:hover {
+  background-color: var(--background-modifier-hover);
+}
+
+.tag-search-result.is-active {
+  background-color: var(--background-modifier-hover);
+  box-shadow: inset 2px 0 var(--interactive-accent);
+}
+
+.tag-search-result-top {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.tag-search-result-file {
+  font-weight: 500;
+}
+
+.tag-search-result-line {
+  color: var(--text-accent);
+  font-family: var(--font-monospace);
+}
+
+.tag-search-result-kind {
+  margin-left: auto;
+  color: var(--text-faint);
+  font-size: var(--font-ui-smaller);
+}
+
+.tag-search-result-text {
+  color: var(--text-muted);
+  font-size: var(--font-ui-smaller);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tag-search-empty {
+  padding: 12px 4px;
+  color: var(--text-faint);
+  font-style: italic;
+}
+
+/* Keep the tag prompt above the on-screen keyboard on phones. */
+@media screen and (max-width: 700px) {
+  .tag-search-input-modal {
+    position: fixed;
+    top: 12px;
+    top: calc(env(safe-area-inset-top, 0px) + 12px);
+    left: 16px;
+    right: 16px;
+    width: auto;
+    max-width: none;
+    max-height: 55vh;
+    margin: 0;
+    overflow-y: auto;
+    transform: none;
+  }
+
+  .tag-search-input-modal h2 {
+    font-size: 1.15em;
+    line-height: 1.3;
+    margin: 0 0 12px;
+  }
+
+  .tag-search-input-modal .setting-item {
+    padding: 0;
+    border: 0;
+  }
+
+  .tag-search-input-modal .setting-item-control {
+    flex-wrap: nowrap;
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "obsidian-tag-search",
+  "version": "1.0.0",
+  "description": "Obsidian plugin ported from rookie_tag.nvim",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "tsc --noEmit && node esbuild.config.mjs production",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "obsidian": "^1.10.3",
+    "typescript": "^5.9.3"
+  }
+}

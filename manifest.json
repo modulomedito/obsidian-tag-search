@@ -1,0 +1,9 @@
+{
+  "id": "obsidian-tag-search",
+  "name": "Tag Search (rookie)",
+  "version": "1.0.0",
+  "minAppVersion": "1.7.2",
+  "description": "Port of rookie_tag.nvim: update, search and manage tags across your vault.",
+  "author": "modulomedito",
+  "isDesktopOnly": false
+}
