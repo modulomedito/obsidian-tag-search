@@ -38,10 +38,12 @@ jobs:
             main.js
             styles.css
 
-      - name: Create release
+      - name: Recreate release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # Make re-running a tag safe: drop the old release but keep the tag.
+          gh release delete "$GITHUB_REF_NAME" --yes || true
           gh release create "$GITHUB_REF_NAME" \
             main.js \
             manifest.json \
