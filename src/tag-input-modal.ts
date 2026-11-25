@@ -15,6 +15,7 @@ export function promptForTags(
 class TagInputModal extends Modal {
   private input: TextComponent | null = null;
   private settled = false;
+  private modalContainer: HTMLElement | null = null;
 
   constructor(
     app: App,
@@ -28,8 +29,10 @@ class TagInputModal extends Modal {
 
   onOpen(): void {
     this.modalEl.addClass('tag-search-input-modal');
-    if (this.isCompactScreen()) {
-      this.modalEl.addClass('tag-search-modal-pinned');
+    const container = this.modalEl.closest('.modal-container') as HTMLElement | null;
+    if (this.isCompactScreen() && container) {
+      this.modalContainer = container;
+      container.addClass('tag-search-modal-container');
     }
     this.contentEl.createEl('h2', { text: this.title });
 
@@ -69,6 +72,8 @@ class TagInputModal extends Modal {
   }
 
   onClose(): void {
+    this.modalContainer?.removeClass('tag-search-modal-container');
+    this.modalContainer = null;
     this.finish(null);
     this.contentEl.empty();
   }
