@@ -1,7 +1,7 @@
 {
   "name": "obsidian-tag-search",
   "version": "1.0.0",
-  "description": "Obsidian plugin ported from rookie_tag.nvim",
+  "description": "Update, search, and manage inline and frontmatter tags in your notes, with vault-wide and file-name searches.",
   "main": "main.js",
   "scripts": {
     "dev": "node esbuild.config.mjs",

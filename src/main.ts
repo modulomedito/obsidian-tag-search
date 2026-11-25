@@ -53,10 +53,6 @@ export default class TagSearchPlugin extends Plugin {
     });
   }
 
-  onunload(): void {
-    this.app.workspace.detachLeavesOfType(VIEW_TYPE);
-  }
-
   private async navigateResult(step: 1 | -1): Promise<void> {
     const leaf = this.app.workspace.getLeavesOfType(VIEW_TYPE)[0];
     if (!leaf) {

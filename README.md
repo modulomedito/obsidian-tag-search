@@ -31,7 +31,7 @@
 ## 安装
 
 1. 执行 `npm install` 和 `npm run build`，生成根目录的 `main.js`。
-2. 把 `main.js`、`manifest.json`、`styles.css` 复制到 vault 的 `.obsidian/plugins/obsidian-tag-search/` 目录。
+2. 把 `main.js`、`manifest.json`、`styles.css` 复制到 vault 的 `.obsidian/plugins/tag-search-rookie/` 目录。
 3. 在 Obsidian 中重新加载插件并启用。
 
 ## 开发
