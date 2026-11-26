@@ -29,7 +29,7 @@ class TagInputModal extends Modal {
 
   onOpen(): void {
     this.modalEl.addClass('tag-search-input-modal');
-    const container = this.modalEl.closest('.modal-container') as HTMLElement | null;
+    const container = this.modalEl.closest<HTMLElement>('.modal-container');
     if (this.isCompactScreen() && container) {
       this.modalContainer = container;
       container.addClass('tag-search-modal-container');
