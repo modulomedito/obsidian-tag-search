@@ -1,4 +1,4 @@
-import { Notice, Plugin, WorkspaceLeaf } from 'obsidian';
+import { Menu, Notice, Plugin, WorkspaceLeaf } from 'obsidian';
 import {
   addFileNameTags,
   searchFileNameTags,
@@ -9,6 +9,15 @@ import {
 import { ResultsView, VIEW_TYPE } from './results-view';
 import { ResultSink, SearchResult } from './types';
 
+type FeatureAction = () => void | Promise<void>;
+
+interface FeatureDefinition {
+  id: string;
+  name: string;
+  icon: string;
+  action: FeatureAction;
+}
+
 export default class TagSearchPlugin extends Plugin {
   async onload(): Promise<void> {
     this.registerView(VIEW_TYPE, (leaf) => new ResultsView(leaf));
@@ -16,40 +25,72 @@ export default class TagSearchPlugin extends Plugin {
     const sink: ResultSink = (results: SearchResult[], heading: string) =>
       this.showResults(results, heading);
 
-    this.addCommand({
-      id: 'update-tags',
-      name: 'Update tags on current line',
-      callback: () => updateTags(this.app),
-    });
-    this.addCommand({
-      id: 'search-tags',
-      name: 'Search tags in current note',
-      callback: () => searchTags(this.app, sink),
-    });
-    this.addCommand({
-      id: 'search-global-tags',
-      name: 'Search tags across vault',
-      callback: () => searchGlobalTags(this.app, sink),
-    });
-    this.addCommand({
-      id: 'add-file-name-tags',
-      name: 'Add tags to current file name',
-      callback: () => addFileNameTags(this.app),
-    });
-    this.addCommand({
-      id: 'search-file-name-tags',
-      name: 'Search files by name tags',
-      callback: () => searchFileNameTags(this.app, sink),
-    });
-    this.addCommand({
-      id: 'next-result',
-      name: 'Go to next tag search result',
-      callback: () => this.navigateResult(1),
-    });
-    this.addCommand({
-      id: 'previous-result',
-      name: 'Go to previous tag search result',
-      callback: () => this.navigateResult(-1),
+    const features: FeatureDefinition[] = [
+      {
+        id: 'update-tags',
+        name: 'Update tags on current line',
+        icon: 'pencil',
+        action: () => updateTags(this.app),
+      },
+      {
+        id: 'search-tags',
+        name: 'Search tags in current note',
+        icon: 'search',
+        action: () => searchTags(this.app, sink),
+      },
+      {
+        id: 'search-global-tags',
+        name: 'Search tags across vault',
+        icon: 'globe',
+        action: () => searchGlobalTags(this.app, sink),
+      },
+      {
+        id: 'add-file-name-tags',
+        name: 'Add tags to current file name',
+        icon: 'file',
+        action: () => addFileNameTags(this.app),
+      },
+      {
+        id: 'search-file-name-tags',
+        name: 'Search files by name tags',
+        icon: 'folder',
+        action: () => searchFileNameTags(this.app, sink),
+      },
+      {
+        id: 'next-result',
+        name: 'Go to next tag search result',
+        icon: 'arrow-down',
+        action: () => this.navigateResult(1),
+      },
+      {
+        id: 'previous-result',
+        name: 'Go to previous tag search result',
+        icon: 'arrow-up',
+        action: () => this.navigateResult(-1),
+      },
+    ];
+
+    for (const feature of features) {
+      this.addCommand({
+        id: feature.id,
+        name: feature.name,
+        callback: feature.action,
+      });
+    }
+
+    this.addRibbonIcon('hash', 'Tag Search (rookie)', (event: MouseEvent) => {
+      const menu = new Menu();
+      features.forEach((feature, index) => {
+        // Separate search actions from result navigation.
+        if (index === 5) menu.addSeparator();
+        menu.addItem((item) =>
+          item
+            .setTitle(feature.name)
+            .setIcon(feature.icon)
+            .onClick(() => void feature.action())
+        );
+      });
+      menu.showAtMouseEvent(event);
     });
   }
 

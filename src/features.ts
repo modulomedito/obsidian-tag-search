@@ -10,7 +10,7 @@ import {
 import { ResultSink, SearchResult } from './types';
 
 const NO_TAGS = 'No tags entered.';
-const NO_MATCH = ' -------> No matching lines found.';
+const NO_MATCH = 'No matching lines found. Try fewer tags or a broader search.';
 
 async function askTags(app: App, prompt: string): Promise<string[] | null> {
   const raw = await promptForTags(app, prompt);

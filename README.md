@@ -20,6 +20,10 @@ Enter tags separated by spaces (for example `project pending`); the leading `#` 
 
 Search results appear in the **Tag Search** sidebar view (the equivalent of the quickfix window). Click a result to open its note and jump to the matching line; when there is only one result, the jump happens automatically. The **Clear** button empties the result list. The previous/next commands cycle through the results in order and highlight the current one; if there are no results you will be prompted to run a search first.
 
+## Ribbon menu
+
+The `#` icon in the left ribbon opens a menu containing every command above. Search actions are grouped separately from the previous/next result navigation. The menu and the command palette run the same actions, so assign hotkeys only to the commands you use often.
+
 ## Differences from the nvim version
 
 - Tag sources include both inline `#tag` and YAML frontmatter `tags:` (arrays, strings, or `a, b`); frontmatter is shown as a separate result that jumps to the properties section.

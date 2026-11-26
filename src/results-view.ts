@@ -79,7 +79,12 @@ export class ResultsView extends ItemView {
 
     const list = root.createDiv({ cls: 'tag-search-view-list' });
     if (this.results.length === 0) {
-      list.createDiv({ cls: 'tag-search-empty', text: 'No results. Run a tag search command.' });
+      const empty = list.createDiv({ cls: 'tag-search-empty' });
+      empty.createDiv({ cls: 'tag-search-empty-title', text: 'No matches' });
+      empty.createDiv({
+        cls: 'tag-search-empty-hint',
+        text: 'Try fewer tags or a broader search.',
+      });
       return;
     }
 
